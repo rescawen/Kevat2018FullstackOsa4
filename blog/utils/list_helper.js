@@ -1,11 +1,38 @@
-const dummy = (blogs) => {
-    
-    const one = 1
+// const dummy = (blogs) => {
 
-    return one
+//   const one = 1
 
+//   return one
+
+// }
+
+// module.exports = {
+//   dummy
+// }
+
+
+const totalLikes = (blogs) => {
+
+  var result = 0
+
+  if (blogs.length === 0) { // miten tarkistan että blogi on tyhjä?
+    result = 0
+  } else {
+
+    blogs.forEach(function (item) {
+
+      result = result + item.likes
+
+    });
+
+
+    // result = blogs[0].likes
   }
-  
-  module.exports = {
-    dummy
-  }
+
+  return result
+
+}
+
+module.exports = {
+  totalLikes
+}
