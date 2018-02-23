@@ -66,7 +66,7 @@ test('a valid blog can be added ', async () => {
   await api
     .post('/api/blogs')
     .send(newBlog)
-    .expect(201)
+    .expect(200)
     .expect('Content-Type', /application\/json/)
 
   const response = await api
@@ -77,6 +77,34 @@ test('a valid blog can be added ', async () => {
   expect(response.body.length).toBe(initialBlogs.length + 1)
   expect(titles).toContain('async/await yksinkertaistaa asynkronisten funktioiden kutsua')
 })
+
+// test('a blog can be deleted', async () => {
+//   const newBlog = {
+//     title: 'to be deleted',
+//     author: 'String3',
+//     url: 'String3',
+//     likes: 3
+//   }
+
+//   const addedBlog = await api
+//     .post('/api/blogs')
+//     .send(newBlog)
+
+//   const blogsAtBeginningOfOperation = await api
+//     .get('/api/blogs')
+
+//   await api
+//     .delete(`/api/blogs/${addedBlog.body.title}`)
+//     .expect(204)
+
+//   const blogsAfterDelete = await api
+//     .get('/api/blogs')
+
+//   const titles = blogsAfterDelete.body.map(r => r.title)
+
+//   expect(titles).not.toContain('to be deleted')
+//   expect(blogsAfterDelete.body.length).toBe(blogsAtBeginningOfOperation.body.length - 1)
+// })
 
 afterAll(() => {
   server.close()
