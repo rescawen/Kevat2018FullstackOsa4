@@ -38,9 +38,8 @@ test('blogs are returned', async () => {
   const response = await api
     .get('/api/blogs')
 
-  console.log(response.body)
-  
-  console.log(initialBlogs)
+  // console.log(response.body)
+  // console.log(initialBlogs)
 
   expect(response.body.length).toBe(initialBlogs.length)
 })
@@ -49,9 +48,12 @@ test('a specific blog is within the returned blogs', async () => {
   const response = await api
     .get('/api/blogs')
 
-  const titles = response.body.map(r => r.title)
+  const contents = response.body.map(r => r.title)
 
-  expect(titles).toContain('String2')
+  console.log(contents)
+
+  expect(contents).toContain('String')
+  // expect(contents).toContain('String2')
 })
 
 
@@ -72,39 +74,41 @@ test('a valid blog can be added ', async () => {
   const response = await api
     .get('/api/blogs')
 
-  const titles = response.body.map(r => r.title)
+  const contents = response.body.map(r => r.title)
+
+  console.log(contents)
 
   expect(response.body.length).toBe(initialBlogs.length + 1)
-  expect(titles).toContain('async/await yksinkertaistaa asynkronisten funktioiden kutsua')
+  expect(contents).toContain('async/await yksinkertaistaa asynkronisten funktioiden kutsua')
 })
 
-// test('a blog can be deleted', async () => {
-//   const newBlog = {
-//     title: 'to be deleted',
-//     author: 'String3',
-//     url: 'String3',
-//     likes: 3
-//   }
+test('a blog can be deleted', async () => {
+  const newBlog = {
+    title: 'HTTP DELETE poistaa resurssin',
+    author: 'String3',
+    url: 'String3',
+    likes: 3
+  }
 
-//   const addedBlog = await api
-//     .post('/api/blogs')
-//     .send(newBlog)
+  const addedBlog = await api
+    .post('/api/blogs')
+    .send(newBlog)
 
-//   const blogsAtBeginningOfOperation = await api
-//     .get('/api/blogs')
+  const blogsAtBeginningOfOperation = await api
+    .get('/api/blogs')
 
-//   await api
-//     .delete(`/api/blogs/${addedBlog.body.title}`)
-//     .expect(204)
+  await api
+    .delete(`/api/blogs/${addedBlog.body.id}`)
+    .expect(204)
 
-//   const blogsAfterDelete = await api
-//     .get('/api/blogs')
+  const blogsAfterDelete = await api
+    .get('/api/blogs')
 
-//   const titles = blogsAfterDelete.body.map(r => r.title)
+  const contents = blogsAfterDelete.body.map(r => r.title)
 
-//   expect(titles).not.toContain('to be deleted')
-//   expect(blogsAfterDelete.body.length).toBe(blogsAtBeginningOfOperation.body.length - 1)
-// })
+  expect(contents).not.toContain('HTTP DELETE poistaa resurssin')
+  expect(blogsAfterDelete.body.length).toBe(blogsAtBeginningOfOperation.body.length - 1)
+})
 
 afterAll(() => {
   server.close()
