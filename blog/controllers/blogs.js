@@ -46,11 +46,7 @@ blogsRouter.post('/', async (request, response) => {
       return response.status(400).json({ error: 'title missing' })
     }
 
-    console.log(body.userId)
-
-    const user = await User.findById(body.userId)
-
-    console.log(user) // null
+    const user = await User.findById(decodedToken.id)
 
     const blog = new Blog({
       title: body.title,
@@ -65,14 +61,15 @@ blogsRouter.post('/', async (request, response) => {
     user.blogs = user.blogs.concat(savedBlog._id)
     await user.save()
 
-
     response.json(Blog.format(blog))
-
   } catch (exception) {
-    console.log(exception)
-    response.status(500).json({ error: 'something went wrong...' })
+    if (exception.name === 'JsonWebTokenError' ) {
+      response.status(401).json({ error: exception.message })
+    } else {
+      console.log(exception)
+      response.status(500).json({ error: 'something went wrong...' })
+    }
   }
-
 })
 
 module.exports = blogsRouter
