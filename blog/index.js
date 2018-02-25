@@ -8,6 +8,7 @@ const blogsRouter = require('./controllers/blogs')
 const usersRouter = require('./controllers/users')
 const loginRouter = require('./controllers/login')
 const config = require('./utils/config')
+const middleware = require('./utils/middleware')
 
 mongoose
   .connect(config.mongoUrl)
@@ -20,6 +21,8 @@ mongoose
 
 app.use(cors())
 app.use(bodyParser.json())
+
+app.use(middleware.tokenExtractor)
 
 app.use('/api/blogs', blogsRouter)
 app.use('/api/users', usersRouter)
