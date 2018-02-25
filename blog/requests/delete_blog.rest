@@ -1,9 +1,0 @@
-DELETE http://localhost:3001/api/blogs 
-content-type: application/json
-
-{
-  "title": "second",
-  "author": "String2",
-  "url": "String2",
-  "likes": "2"
-}

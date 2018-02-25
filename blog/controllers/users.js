@@ -18,6 +18,14 @@ usersRouter.post('/', async (request, response) => {
             return response.status(400).json({ error: 'username must be unique' })
         }
 
+        if (body.password.length < 3) {
+            return response.status(400).json({ error: 'password has to be at least 3 characters long' })
+        }
+
+        if (body.adult === null) {
+            body.adult = true
+        }
+
         const saltRounds = 10
         const passwordHash = await bcrypt.hash(body.password, saltRounds)
 

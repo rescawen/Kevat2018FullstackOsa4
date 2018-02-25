@@ -1,7 +1,6 @@
 POST http://localhost:3003/api/blogs 
 content-type: application/json
-Authorization: bearer yJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJhc2QiLCJpZCI6IjVhOTJjMWM4Y2ZmOGY3MzkxODc4MWYzYyIsImlhdCI6MTUxOTU3NjE3OH0.wBWODYWbpUfYAgiCUS1T7sjbtTPYTKEg6sUjmu9rvLI
-
+Authorization: bearer token key here
 {
   "title": "eeeeeeeeeeeee",
   "author": "aaaaaaa",
