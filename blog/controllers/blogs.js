@@ -13,9 +13,29 @@ blogsRouter.get('/', async (request, response) => {
 
 blogsRouter.delete('/:id', async (request, response) => {
   try {
-    await Blog.findByIdAndRemove(request.params.id)
+    const blog = await Blog.findById(request.params.id)
 
-    response.status(204).end()
+    console.log(blog)
+
+    const decodedToken = jwt.verify(request.token, process.env.SECRET)
+
+    if (!request.token || !decodedToken.id) {
+      return response.status(401).json({ error: 'token missing or invalid' })
+    }
+
+    const user = await User.findById(decodedToken.id)
+
+    console.log(user)
+
+    if (blog.user.toString() === user._id.toString()) {
+      await Blog.findByIdAndRemove(request.params.id)
+
+      response.status(204).end()
+    } else {
+      response.status(400).send({ error: 'user id does not match' })
+    }
+
+    
   } catch (exception) {
     console.log(exception)
     response.status(400).send({ error: 'malformatted id' })
