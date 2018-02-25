@@ -1,8 +1,6 @@
 const User = require('../models/user')
 const { format, initialBlogs, nonExistingId, blogsInDb, usersInDb } = require('./test_helper')
 
-
-
 describe.only('when there is initially one user at db', async () => {
     beforeAll(async () => {
         await User.remove({})
@@ -52,7 +50,9 @@ describe.only('when there is initially one user at db', async () => {
         expect(usersAfterOperation.length).toBe(usersBeforeOperation.length)
     })
 
-    afterAll(() => {
-        server.close()
-      })
+    
 })
+
+afterAll(() => {
+    server.close()
+  })
