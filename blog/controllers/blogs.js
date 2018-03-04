@@ -27,13 +27,21 @@ blogsRouter.delete('/:id', async (request, response) => {
 
     console.log(user)
 
-    if (blog.user.toString() === user._id.toString()) {
-      await Blog.findByIdAndRemove(request.params.id)
-
-      response.status(204).end()
+    if (!!blog.user) {
+      if (blog.user.toString() === user._id.toString()) {
+        await Blog.findByIdAndRemove(request.params.id)
+  
+        response.status(204).end()
+      } else {
+        response.status(400).send({ error: 'user id does not match' })
+      }
     } else {
-      response.status(400).send({ error: 'user id does not match' })
+      await Blog.findByIdAndRemove(request.params.id)
+  
+        response.status(204).end()
     }
+
+    
 
     
   } catch (exception) {
@@ -90,6 +98,13 @@ blogsRouter.post('/', async (request, response) => {
       response.status(500).json({ error: 'something went wrong...' })
     }
   }
+})
+
+blogsRouter.put('/:id', async (request, response) => {
+  const { title, author, url, likes } = request.body
+  const blog = await Blog.findByIdAndUpdate(request.params.id, { title, author, url, likes } , {new: true})
+  
+  response.send(blog)
 })
 
 module.exports = blogsRouter
