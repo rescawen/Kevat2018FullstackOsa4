@@ -8,6 +8,10 @@
     "watch": "cross-env NODE_ENV=development nodemon index.js",
     "test": "cross-env NODE_ENV=test jest --verbose"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rescawen/Kevat2018FullstackOsa4"
+  },
   "author": "Wenlei Dai",
   "license": "MIT",
   "dependencies": {
